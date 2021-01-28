@@ -13,6 +13,26 @@ class Home extends Component {
             My List
         </button>
       </Link>
+      <Link to={'./build'}>
+        <button variant="raised">
+            Build page
+        </button>
+      </Link>
+      <Link to={'./test'}>
+        <button variant="raised">
+            Test page
+        </button>
+      </Link>
+      <Link to={'./upload'}>
+        <button variant="raised">
+            Upload page
+        </button>
+      </Link>
+      <Link to={'./download'}>
+        <button variant="raised">
+            Download page
+        </button>
+      </Link>
     </div>
     );
   }
