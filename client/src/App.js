@@ -7,11 +7,13 @@ import Test from './App/pages/Test';
 import Upload from './App/pages/Upload';
 import Download from './App/pages/Download';
 import List from './App/pages/List';
+import Navagation from './App/components/Navagation';
 
 class App extends Component {
   render() {
     const App = () => (
       <div>
+        <Navagation></Navagation>
         <Switch>
           <Route exact path='/' component={Home}/>
           <Route path='/build' component={Build}/>
