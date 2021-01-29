@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import Image from 'react-bootstrap/Image';
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
@@ -13,11 +14,21 @@ class Navagation extends Component {
             </Nav.Link> */}
           </Nav.Item>
           <NavDropdown title="Dropdown" id="nav-dropdown">
-            <NavDropdown.Item href="/">Home</NavDropdown.Item>
-            <NavDropdown.Item href="/build">Build</NavDropdown.Item>
-            <NavDropdown.Item href="/test">Test</NavDropdown.Item>
-            <NavDropdown.Item href="/upload">Upload</NavDropdown.Item>
-            <NavDropdown.Item href="/download">Download</NavDropdown.Item>
+            <NavDropdown.Item>
+              <Link to={'./'}>Home</Link>
+            </NavDropdown.Item>
+            <NavDropdown.Item>
+              <Link to={'./build'}>Build</Link>
+            </NavDropdown.Item>
+            <NavDropdown.Item>
+              <Link to={'./test'}>Test</Link>
+            </NavDropdown.Item>
+            <NavDropdown.Item>
+             <Link to={'./upload'}>Upload</Link>
+            </NavDropdown.Item>
+            <NavDropdown.Item>
+              <Link to={'./download'}>Download</Link>
+            </NavDropdown.Item>
           </NavDropdown>
         </Nav>
       );
