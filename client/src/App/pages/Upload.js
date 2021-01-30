@@ -14,7 +14,7 @@ class Upload extends Component {
                             title={"New"}
                             image={""}
                             text={"Create a new mod"}
-                            link={"./"}
+                            link={"./upload-new"}
                             link_text={"Start New"}
                         ></CardTile>
                     </Col>
@@ -23,7 +23,7 @@ class Upload extends Component {
                             title={"Edit"}
                             image={""}
                             text={"Edit an existing mod"}
-                            link={"./"}
+                            link={"./upload-edit"}
                             link_text={"Start Edit"}
                         ></CardTile>
                     </Col>
@@ -32,7 +32,7 @@ class Upload extends Component {
                             title={"Delete"}
                             image={""}
                             text={"Delete a mod"}
-                            link={"./"}
+                            link={"./upload-delete"}
                             link_text={"Start Delete"}
                         ></CardTile>
                     </Col>

@@ -5,8 +5,10 @@ import Home from "./App/pages/Home";
 import Build from "./App/pages/Build";
 import Test from "./App/pages/Test";
 import Upload from "./App/pages/Upload";
+import UploadNew from "./App/pages/UploadNew";
+import UploadEdit from "./App/pages/UploadEdit";
+import UploadDelete from "./App/pages/UploadDelete";
 import Download from "./App/pages/Download";
-import List from "./App/pages/List";
 import Navagation from "./App/components/Navagation";
 
 class App extends Component {
@@ -20,7 +22,9 @@ class App extends Component {
                     <Route path="/test" component={Test} />
                     <Route path="/upload" component={Upload} />
                     <Route path="/download" component={Download} />
-                    <Route path="/list" component={List} />
+                    <Route path="/upload-new" component={UploadNew} />
+                    <Route path="/upload-edit" component={UploadEdit} />
+                    <Route path="/upload-delete" component={UploadDelete} />
                 </Switch>
             </div>
         );
