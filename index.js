@@ -30,9 +30,9 @@ app.get("/api/getAllClients", (req, res) => {
 
         conn.connect()
             .then(function () {
-                const req = new sql.Request(conn);
+                const request = new sql.Request(conn);
 
-                req.query("SELECT * FROM client")
+                request.query("SELECT * FROM client")
                     .then(function (data) {
                         console.log(data.recordset);
                         res.json(data.recordset);
@@ -57,39 +57,6 @@ app.get("/api/getList", (req, res) => {
     var list = ["item1", "item2", "item3"];
     res.json(list);
     console.log("Sent list of items");
-
-    // This function connects to a SQL server, executes a SELECT statement,
-    // and displays the results in the console.
-    function getCustomers() {
-        // Create connection instance
-        const conn = new sql.ConnectionPool(dbConfig);
-
-        conn.connect()
-            // Successfull connection
-            .then(function () {
-                // Create request instance, passing in connection instance
-                const req = new sql.Request(conn);
-
-                // Call mssql's query method passing in params
-                req.query("SELECT * FROM image")
-                    .then(function (recordset) {
-                        console.log(recordset);
-                        conn.close();
-                    })
-                    // Handle sql statement execution errors
-                    .catch(function (err) {
-                        console.log(err);
-                        conn.close();
-                    });
-            })
-            // Handle connection errors
-            .catch(function (err) {
-                console.log(err);
-                conn.close();
-            });
-    }
-
-    getCustomers();
 });
 
 // Handles any requests that don't match the ones above
