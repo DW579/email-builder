@@ -7,31 +7,40 @@ class DropdownOptions extends Component {
 
         this.state = {
             title: props.title,
-            clients: props.clients
+            options: props.options,
         };
     }
 
     render() {
-        return (
-            <Dropdown>
-                <Dropdown.Toggle variant="success" id="dropdown-basic">
-                    {this.state.title}
-                </Dropdown.Toggle>
+        // If options have not come in yet, show loading screen. Else show real UI
+        if (this.state.options === null) {
+            console.log("Not ready");
+        } else {
+            return (
+                <Dropdown>
+                    <Dropdown.Toggle variant="success" id="dropdown-basic">
+                        {this.state.title}
+                    </Dropdown.Toggle>
 
-                <Dropdown.Menu>
-                    {this.state.clients.map((value, index) => {
-                        return <Dropdown.Item>{value}</Dropdown.Item>
-                    })}
-                    {/* <Dropdown.Item href="/action-1">Action</Dropdown.Item>
-                    <Dropdown.Item href="/action-2">
-                        Another action
-                    </Dropdown.Item>
-                    <Dropdown.Item href="/action-3">
-                        Something else
-                    </Dropdown.Item> */}
-                </Dropdown.Menu>
-            </Dropdown>
-        );
+                    <Dropdown.Menu>
+                        {this.state.options.map((value, index) => {
+                            return (
+                                <Dropdown.Item key={index}>
+                                    {value}
+                                </Dropdown.Item>
+                            );
+                        })}
+                        {/* <Dropdown.Item href="/action-1">Action</Dropdown.Item>
+                        <Dropdown.Item href="/action-2">
+                            Another action
+                        </Dropdown.Item>
+                        <Dropdown.Item href="/action-3">
+                            Something else
+                        </Dropdown.Item> */}
+                    </Dropdown.Menu>
+                </Dropdown>
+            );
+        }
     }
 }
 export default DropdownOptions;

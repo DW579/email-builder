@@ -16,12 +16,41 @@ const dbConfig = {
     port: 1433,
     options: {
         encrypt: true,
-        enableArithAbort: true
+        enableArithAbort: true,
     },
 };
 
 // Serve the static files from the React app
 app.use(express.static(path.join(__dirname, "client/build")));
+
+// Get all clients from DB
+app.get("/api/getAllClients", (req, res) => {
+    function getAllClients() {
+        const conn = new sql.ConnectionPool(dbConfig);
+
+        conn.connect()
+            .then(function () {
+                const req = new sql.Request(conn);
+
+                req.query("SELECT * FROM client")
+                    .then(function (data) {
+                        console.log(data.recordset);
+                        res.json(data.recordset);
+                        conn.close();
+                    })
+                    .catch(function (err) {
+                        console.log(err);
+                        conn.close();
+                    });
+            })
+            .catch(function (err) {
+                console.log(err);
+                conn.close();
+            });
+    }
+
+    getAllClients();
+});
 
 // An api endpoint that returns a short list of items
 app.get("/api/getList", (req, res) => {
