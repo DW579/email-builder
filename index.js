@@ -34,7 +34,6 @@ app.get("/api/getAllClients", (req, res) => {
 
                 request.query("SELECT * FROM client")
                     .then(function (data) {
-                        console.log(data.recordset);
                         res.json(data.recordset);
                         conn.close();
                     })

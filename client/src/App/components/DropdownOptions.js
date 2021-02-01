@@ -7,10 +7,17 @@ class DropdownOptions extends Component {
     constructor(props) {
         super(props);
 
+        this.handleChange = this.handleChange.bind(this);
+
         this.state = {
             title: props.title,
             options: props.options,
+            selected_option: null,
         };
+    }
+
+    handleChange(e) {
+        this.props.onOptionSelection(e.target.text);
     }
 
     // Update state.options
@@ -29,6 +36,13 @@ class DropdownOptions extends Component {
         }
 
         return false;
+    }
+
+    // Set state.selected_option to user selected option from drop down
+    setOption(e) {
+        this.setState({
+            selected_option: e.target.childNodes[0].data,
+        });
     }
 
     render() {
@@ -56,18 +70,14 @@ class DropdownOptions extends Component {
                     <Dropdown.Menu>
                         {this.state.options.map((value, index) => {
                             return (
-                                <Dropdown.Item key={index}>
+                                <Dropdown.Item
+                                    key={index}
+                                    onClick={this.handleChange}
+                                >
                                     {value}
                                 </Dropdown.Item>
                             );
                         })}
-                        {/* <Dropdown.Item href="/action-1">Action</Dropdown.Item>
-                        <Dropdown.Item href="/action-2">
-                            Another action
-                        </Dropdown.Item>
-                        <Dropdown.Item href="/action-3">
-                            Something else
-                        </Dropdown.Item> */}
                     </Dropdown.Menu>
                 </Dropdown>
             );
