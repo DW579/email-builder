@@ -23,7 +23,7 @@ class UploadNew extends Component {
 
         this.state = {
             client_names: [],
-            section_names: ["Header", "Body", "Footer"],
+            section_names: [],
             client_name: "Please Select Client",
             section_name: "Please Select Section",
             client_selected: false,
@@ -35,6 +35,7 @@ class UploadNew extends Component {
     // Fetch all clients
     componentDidMount = () => {
         this.getAllClients();
+        this.getAllSections();
     };
 
     // Retrieves all clients from the Express backend and target client names
@@ -53,6 +54,24 @@ class UploadNew extends Component {
                 return client_names;
             })
             .then((client_names) => this.setState({ client_names }));
+    };
+
+    // Retrieves all sections from the Express backend and target client names
+    getAllSections = () => {
+        fetch("/api/getAllSections")
+            .then((res) => res.json())
+            .then((sections) => {
+                let section_names = [];
+
+                // Loop to get only client names
+                for (let i = 0; i < sections.length; i++) {
+                    section_names.push(sections[i].name);
+                }
+
+                // Return only client names
+                return section_names;
+            })
+            .then((section_names) => this.setState({ section_names }));
     };
 
     // When a client is selected, change state

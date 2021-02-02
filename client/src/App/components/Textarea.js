@@ -13,7 +13,7 @@ class Textarea extends Component {
             <Form>
                 <Form.Group>
                     <Form.Label>Paste HTML Here</Form.Label>
-                    <Form.Control as="textarea" rows={3}></Form.Control>
+                    <Form.Control as="textarea" rows={12}></Form.Control>
                 </Form.Group>
             </Form>
         );

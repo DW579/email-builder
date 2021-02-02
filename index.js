@@ -51,6 +51,34 @@ app.get("/api/getAllClients", (req, res) => {
     getAllClients();
 });
 
+// Get all sections from DB
+app.get("/api/getAllSections", (req, res) => {
+    function getAllSections() {
+        const conn = new sql.ConnectionPool(dbConfig);
+
+        conn.connect()
+            .then(function () {
+                const request = new sql.Request(conn);
+
+                request.query("SELECT * FROM section")
+                    .then(function (data) {
+                        res.json(data.recordset);
+                        conn.close();
+                    })
+                    .catch(function (err) {
+                        console.log(err);
+                        conn.close();
+                    });
+            })
+            .catch(function (err) {
+                console.log(err);
+                conn.close();
+            });
+    }
+
+    getAllSections();
+});
+
 // An api endpoint that returns a short list of items
 app.get("/api/getList", (req, res) => {
     var list = ["item1", "item2", "item3"];

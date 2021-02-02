@@ -50,7 +50,7 @@ class DropdownOptions extends Component {
         // If options have not come in yet, show loading screen. Else show real UI
         if (this.state.options.length === 0) {
             return (
-                <Button variant="primary" disabled>
+                <Button variant="warning" disabled>
                     <Spinner
                         as="span"
                         animation="grow"
