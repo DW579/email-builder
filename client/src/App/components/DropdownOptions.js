@@ -12,7 +12,7 @@ class DropdownOptions extends Component {
         this.state = {
             title: props.title,
             options: props.options,
-            selected_option: null,
+            selected_option: null
         };
     }
 
@@ -29,6 +29,7 @@ class DropdownOptions extends Component {
 
     // When client name data is received, re-render the component to display client options in drop down
     shouldComponentUpdate(nextProps, nextState) {
+        // When options come into DropdownOption component
         if (nextProps.options !== this.state.options) {
             this.updateOptions(nextProps.options);
 
@@ -63,7 +64,7 @@ class DropdownOptions extends Component {
         } else {
             return (
                 <Dropdown>
-                    <Dropdown.Toggle variant="success" id="dropdown-basic">
+                    <Dropdown.Toggle variant="warning" id="dropdown-basic">
                         {this.state.title}
                     </Dropdown.Toggle>
 
