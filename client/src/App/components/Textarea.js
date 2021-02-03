@@ -5,7 +5,17 @@ class Textarea extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {};
+        this.handleChange = this.handleChange.bind(this);
+
+        this.state = {
+            valid: false
+        };
+    }
+
+    handleChange(e) {
+        this.setState({
+            valid: true
+        });
     }
 
     render() {
@@ -13,7 +23,8 @@ class Textarea extends Component {
             <Form>
                 <Form.Group>
                     <Form.Label>Paste HTML Here</Form.Label>
-                    <Form.Control as="textarea" rows={12}></Form.Control>
+                    <Form.Control as="textarea" rows={12} isValid={this.state.valid} onChange={this.handleChange}></Form.Control>
+                    <Form.Control.Feedback type="valid"></Form.Control.Feedback>
                 </Form.Group>
             </Form>
         );
