@@ -121,10 +121,14 @@ class UploadNew extends Component {
                 </Row>
                 <Row>
                     <Col>
-                        <Textarea></Textarea>
+                        <Textarea
+                            title={"Paste HTML Here"}
+                        ></Textarea>
                     </Col>
                     <Col>
-                        <Textarea></Textarea>
+                        <Textarea
+                            title={"Paste CSS Here"}
+                        ></Textarea>
                     </Col>
                 </Row>
                 <Row>

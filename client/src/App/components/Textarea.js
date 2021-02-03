@@ -8,6 +8,7 @@ class Textarea extends Component {
         this.handleChange = this.handleChange.bind(this);
 
         this.state = {
+            title: props.title,
             valid: false
         };
     }
@@ -22,7 +23,7 @@ class Textarea extends Component {
         return (
             <Form>
                 <Form.Group>
-                    <Form.Label>Paste HTML Here</Form.Label>
+                    <Form.Label>{this.state.title}</Form.Label>
                     <Form.Control as="textarea" rows={12} isValid={this.state.valid} onChange={this.handleChange}></Form.Control>
                     <Form.Control.Feedback type="valid"></Form.Control.Feedback>
                 </Form.Group>
