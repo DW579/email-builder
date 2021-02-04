@@ -9,13 +9,16 @@ class Textarea extends Component {
 
         this.state = {
             title: props.title,
+            text: "",
             valid: false
         };
     }
 
     handleChange(e) {
+        console.log(e.target.textContent)
         this.setState({
-            valid: true
+            valid: true,
+            text: e.target.textContent
         });
     }
 

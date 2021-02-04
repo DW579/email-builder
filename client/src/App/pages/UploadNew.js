@@ -29,6 +29,8 @@ class UploadNew extends Component {
             client_selected: false,
             section_selected: false,
             button: "Review",
+            html: "",
+            css: ""
         };
     }
 
