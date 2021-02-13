@@ -5,11 +5,15 @@ import Row from "react-bootstrap/Row";
 import Nav from "react-bootstrap/Nav";
 import DropdownOptions from "../components/DropdownOptions";
 
+import "../../App.css";
+
 class Build extends Component {
     constructor(props) {
         super(props);
 
         this.handleClientSelection = this.handleClientSelection.bind(this);
+
+        this.handleOnClick = this.handleOnClick.bind(this);
 
         // Manage active states of tabs
         this.handleActiveState = this.handleActiveState.bind(this);
@@ -18,10 +22,6 @@ class Build extends Component {
             client_names: [],
             client_name: "Please Select Client",
             all_tab_disabled: true,
-            // header_tab_active: false,
-            // nav_tab_active: false,
-            // body_tab_active: false,
-            // footer_tab_active: false,
             active_tab: null,
             tab_active_state: {
                 header: false,
@@ -29,10 +29,23 @@ class Build extends Component {
                 body: false,
                 footer: false,
             },
+            all_mods: [],
+            selected_mods: []
         };
     }
 
-    // Manage active states of tabs functions
+    handleOnClick(e) {
+      console.log(e.target.textContent)
+      let arr = this.state.selected_mods;
+
+      arr.push(e.target.textContent);
+
+      this.setState({
+          selected_mods: arr
+      })
+    }
+
+    // Manage active states of tabs function
     handleActiveState(e) {
         const tab_states = {
             header: false,
@@ -72,19 +85,43 @@ class Build extends Component {
             .then((client_names) => this.setState({ client_names }));
     };
 
-    // When a client is selected, change state
+    // When a client is selected, change state and fetch all mods associated with selected client
     handleClientSelection(client_name) {
+        const data = { clientName: client_name };
+
         this.setState({
             client_name: client_name,
             all_tab_disabled: false,
         });
+
+        // Get mods
+        fetch("/api/getAllMods", { 
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then((res) => res.json())
+        .then((data) => {
+            let mod_names = [];
+
+            //Loop to get only mod names
+            for(let i = 0; i < data.length; i++) {
+                mod_names.push(data[i].name);
+            }
+
+            // Return only mod names
+            return mod_names;
+        })
+        .then((mod_names) => this.setState({ all_mods: mod_names }))
     }
 
     render() {
         return (
             <Container fluid>
                 <Row>
-                    <Col>
+                    <Col className="text-center">
                         <h1>Build Page</h1>
                     </Col>
                 </Row>
@@ -142,6 +179,23 @@ class Build extends Component {
                                 </Nav.Link>
                             </Nav.Item>
                         </Nav>
+                        {this.state.all_mods.map((value, index) => {
+                            return (
+                              <div key={index} onClick={this.handleOnClick} className="div-mod">
+                                {value}
+                              </div>
+                            );
+                        })}
+                    </Col>
+                    <Col>
+                        <h2>Selected mods</h2>
+                        {this.state.selected_mods.map((value, index) => {
+                            return (
+                              <div key={index}>
+                                {value}
+                              </div>
+                            );
+                        })}
                     </Col>
                 </Row>
             </Container>

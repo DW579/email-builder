@@ -23,6 +23,9 @@ const dbConfig = {
 // Serve the static files from the React app
 app.use(express.static(path.join(__dirname, "client/build")));
 
+// Allow app to use bodyParser on json
+app.use(bodyParser.json());
+
 // Get all clients from DB
 app.get("/api/getAllClients", (req, res) => {
     function getAllClients() {
@@ -49,6 +52,51 @@ app.get("/api/getAllClients", (req, res) => {
     }
 
     getAllClients();
+});
+
+// Get all mods associated with selected client
+app.post("/api/getAllMods", (req, res) => {
+    const client_name = req.body.clientName;
+
+    function getAllMods() {
+        const conn = new sql.ConnectionPool(dbConfig);
+
+        conn.connect()
+            .then(function () {
+                const request = new sql.Request(conn);
+
+                // Query for client id
+                request.query("SELECT id FROM client WHERE name='" + client_name + "'")
+                    .then(function (data) {
+                        const client_id = data.recordset[0].id;
+
+                        // Query for all mod names under client_id
+                        request.query("SELECT name FROM mod WHERE clientId=" + client_id)
+                            .then(function (data) {
+                                res.json(data.recordset);
+
+                                conn.close();
+                            })
+                            .catch(function (err) {
+                                console.log(err);
+                                conn.close();
+                            });
+
+                        // conn.close();
+                    })
+                    .catch(function (err) {
+                        console.log(err);
+                        conn.close();
+                    });
+            })
+            .catch(function (err) {
+                console.log(err);
+                conn.close();
+            });
+    }
+
+    // Run function
+    getAllMods();
 });
 
 // Get all sections from DB
