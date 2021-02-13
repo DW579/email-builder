@@ -16,7 +16,11 @@ class Build extends Component {
 
         this.handleOnClick = this.handleOnClick.bind(this);
 
+        // Handle onClick clear button
         this.handleClear = this.handleClear.bind(this);
+
+        // Handle onClick download button
+        this.handleDownload = this.handleDownload.bind(this);
 
         // Manage active states of tabs
         this.handleActiveState = this.handleActiveState.bind(this);
@@ -34,6 +38,7 @@ class Build extends Component {
             },
             all_mods: [],
             selected_mods: [],
+            disable_download: true
         };
     }
 
@@ -44,14 +49,21 @@ class Build extends Component {
 
         this.setState({
             selected_mods: arr,
+            disable_download: false
         });
     }
 
     // Clear all selected mods
     handleClear() {
         this.setState({
-            selected_mods: []
+            selected_mods: [],
+            disable_download: true
         });
+    }
+
+    // Send selected mod names to backend to create and download html file
+    handleDownload() {
+        console.log("Download clicked")
     }
 
     // Manage active states of tabs function
@@ -209,10 +221,14 @@ class Build extends Component {
                 </Row>
                 <Row>
                     <Col>
-                        <Button variant="warning" onClick={this.handleClear}>Clear</Button>
+                        <Button variant="warning" onClick={this.handleClear}>
+                            Clear
+                        </Button>
                     </Col>
                     <Col>
-                        <Button variant="primary">Download</Button>
+                        <Button variant="primary" onClick={this.handleDownload} disabled={this.state.disable_download}>
+                            Download
+                        </Button>
                     </Col>
                 </Row>
             </Container>
