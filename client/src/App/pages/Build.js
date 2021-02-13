@@ -3,6 +3,7 @@ import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Nav from "react-bootstrap/Nav";
+import Button from "react-bootstrap/Button";
 import DropdownOptions from "../components/DropdownOptions";
 
 import "../../App.css";
@@ -14,6 +15,8 @@ class Build extends Component {
         this.handleClientSelection = this.handleClientSelection.bind(this);
 
         this.handleOnClick = this.handleOnClick.bind(this);
+
+        this.handleClear = this.handleClear.bind(this);
 
         // Manage active states of tabs
         this.handleActiveState = this.handleActiveState.bind(this);
@@ -30,19 +33,25 @@ class Build extends Component {
                 footer: false,
             },
             all_mods: [],
-            selected_mods: []
+            selected_mods: [],
         };
     }
 
     handleOnClick(e) {
-      console.log(e.target.textContent)
-      let arr = this.state.selected_mods;
+        let arr = this.state.selected_mods;
 
-      arr.push(e.target.textContent);
+        arr.push(e.target.textContent);
 
-      this.setState({
-          selected_mods: arr
-      })
+        this.setState({
+            selected_mods: arr,
+        });
+    }
+
+    // Clear all selected mods
+    handleClear() {
+        this.setState({
+            selected_mods: []
+        });
     }
 
     // Manage active states of tabs function
@@ -95,26 +104,26 @@ class Build extends Component {
         });
 
         // Get mods
-        fetch("/api/getAllMods", { 
-            method: 'POST',
+        fetch("/api/getAllMods", {
+            method: "POST",
             headers: {
-                'Content-Type': 'application/json'
+                "Content-Type": "application/json",
             },
-            body: JSON.stringify(data)
+            body: JSON.stringify(data),
         })
-        .then((res) => res.json())
-        .then((data) => {
-            let mod_names = [];
+            .then((res) => res.json())
+            .then((data) => {
+                let mod_names = [];
 
-            //Loop to get only mod names
-            for(let i = 0; i < data.length; i++) {
-                mod_names.push(data[i].name);
-            }
+                //Loop to get only mod names
+                for (let i = 0; i < data.length; i++) {
+                    mod_names.push(data[i].name);
+                }
 
-            // Return only mod names
-            return mod_names;
-        })
-        .then((mod_names) => this.setState({ all_mods: mod_names }))
+                // Return only mod names
+                return mod_names;
+            })
+            .then((mod_names) => this.setState({ all_mods: mod_names }));
     }
 
     render() {
@@ -181,21 +190,29 @@ class Build extends Component {
                         </Nav>
                         {this.state.all_mods.map((value, index) => {
                             return (
-                              <div key={index} onClick={this.handleOnClick} className="div-mod">
-                                {value}
-                              </div>
+                                <div
+                                    key={index}
+                                    onClick={this.handleOnClick}
+                                    className="div-mod"
+                                >
+                                    {value}
+                                </div>
                             );
                         })}
                     </Col>
                     <Col>
                         <h2>Selected mods</h2>
                         {this.state.selected_mods.map((value, index) => {
-                            return (
-                              <div key={index}>
-                                {value}
-                              </div>
-                            );
+                            return <div key={index}>{value}</div>;
                         })}
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <Button variant="warning" onClick={this.handleClear}>Clear</Button>
+                    </Col>
+                    <Col>
+                        <Button variant="primary">Download</Button>
                     </Col>
                 </Row>
             </Container>
