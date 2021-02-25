@@ -42,6 +42,7 @@ class Build extends Component {
         };
     }
 
+    // Add selected mod into state.selected_mods and disable download button
     handleOnClick(e) {
         let arr = this.state.selected_mods;
 
@@ -63,7 +64,19 @@ class Build extends Component {
 
     // Send selected mod names to backend to create and download html file
     handleDownload() {
-        console.log("Download clicked")
+        const data = {
+            clientName: this.state.client_name,
+            selectedMods: this.state.selected_mods
+        };
+
+        // POST to download html file and receive success state
+        fetch("/api/download", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        })
     }
 
     // Manage active states of tabs function
@@ -113,6 +126,8 @@ class Build extends Component {
         this.setState({
             client_name: client_name,
             all_tab_disabled: false,
+            selected_mods: [],
+            disable_download: true
         });
 
         // Get mods
