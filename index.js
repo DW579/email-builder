@@ -132,12 +132,11 @@ app.post("/api/download", (req, res) => {
                     )
                     .then(function (data) {
                         const client_id = data.recordset[0].id;
-                        let query =
-                            "SELECT name, html FROM mod WHERE clientId=" +
-                            client_id.toString() +
-                            " AND ";
-
-                        console.log(selected_mods);
+                        let query = "SELECT name, html FROM mod WHERE clientId=" + client_id.toString() + " AND ";
+                        let result_data = {
+                            success: true,
+                            html: ""
+                        }
 
                         // Loop to create query string for selected mod's html
                         for (let i = 0; i < selected_mods.length; i++) {
@@ -158,60 +157,29 @@ app.post("/api/download", (req, res) => {
                                     data.recordset[i].html;
                             }
 
-                            // If code.html file already exist, delete it
-                            if (fs.existsSync("download_file/code.html")) {
-                                fs.unlink(
-                                    "download_file/code.html",
-                                    function (err) {
-                                        if (err) {
-                                            throw err;
-                                        }
-
-                                        console.log("code.html deleted");
-                                    }
-                                );
+                            // Append mod htmls to result_data.html
+                            for (let i = 0; i < selected_mods.length; i++) {
+                                result_data.html += dict[selected_mods[i]];
                             }
 
-                            // Create new html file with first mod's html
-                            fs.writeFile(
-                                "download_file/code.html",
-                                dict[selected_mods[0]],
-                                function (err) {
-                                    if (err) {
-                                        throw err;
-                                    }
-
-                                    console.log("Saved code.html!");
-                                }
-                            );
-
-                            // Write to code.html the rest of the html
-                            for (let i = 1; i < selected_mods.length; i++) {
-                                fs.appendFile(
-                                    "download_file/code.html",
-                                    dict[selected_mods[i]],
-                                    function (err) {
-                                        if (err) {
-                                            throw err;
-                                        }
-
-                                        console.log("Appended to code.html!");
-                                    }
-                                );
-                            }
-
-                            // Trigger code.html to be downloaded in browser
-                            
+                            // Send success true and html to client, to download html on client side
+                            res.json(result_data)
 
                             conn.close();
                         });
                     })
                     .catch(function (err) {
+                        // Send success false to client
+                        res.json({ success: false })
+
                         console.log(err);
                         conn.close();
                     });
             })
             .catch(function (err) {
+                // Send success false to client
+                res.json({ success: false })
+                
                 console.log(err);
                 conn.close();
             });

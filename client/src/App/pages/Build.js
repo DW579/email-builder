@@ -7,6 +7,10 @@ import Button from "react-bootstrap/Button";
 import DropdownOptions from "../components/DropdownOptions";
 
 import "../../App.css";
+import JSZip from 'jszip';
+import { saveAs } from 'file-saver';
+
+const zip = new JSZip();
 
 class Build extends Component {
     constructor(props) {
@@ -64,10 +68,16 @@ class Build extends Component {
 
     // Send selected mod names to backend to create and download html file
     handleDownload() {
+        // Data to be passed to the backend in POST
         const data = {
             clientName: this.state.client_name,
             selectedMods: this.state.selected_mods
         };
+
+        // Disable download button until successful zip download
+        this.setState({
+            disable_download: true
+        });
 
         // POST to download html file and receive success state
         fetch("/api/download", {
@@ -77,6 +87,27 @@ class Build extends Component {
             },
             body: JSON.stringify(data)
         })
+        // res is returning as a pending Promise. Using .then on res.json() to run when Promise is done
+        .then((res) => res.json()
+            .then((value) => {
+                // If success is true, then download the zip of the code.html
+                if(value.success) {
+                    // Undisable download button
+                    this.setState({
+                        disable_download: false
+                    });
+
+                    // Create new file with JSZip and store value.html string into it
+                    zip.file("code.html", value.html);
+
+                    // Generate zip file with code.html data and trigger browser download
+                    zip.generateAsync({type:"blob"})
+                    .then(function(content) {
+                        saveAs(content, "code.zip");
+                    });
+                }
+            })
+        )
     }
 
     // Manage active states of tabs function
